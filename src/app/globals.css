@@ -1,0 +1,455 @@
+@import "tailwindcss";
+
+/* 1. AUTHENTIC FONT FACES */
+@font-face {
+  font-family: "ABCWhyte";
+  src: url("/fonts/ABCWhyteVariable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ABCWhyteInktrap";
+  src: url("/fonts/ABCWhyteInktrapVariable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hexaframe";
+  src: url("/fonts/HexaframeCF-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("/fonts/IBMPlexMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("/fonts/IBMPlexMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("/fonts/IBMPlexMono-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBMPlexMono";
+  src: url("/fonts/IBMPlexMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "ABCWhyte", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-inktrap: "ABCWhyteInktrap", "ABCWhyte", sans-serif;
+  --font-display: "Hexaframe", sans-serif;
+  --font-mono: "IBMPlexMono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --hud-bg: #ffffff;
+  --hud-fg: #000000;
+  --hud-surface: #f9fafb;
+  --hud-text-muted: #71717a;
+  --hud-text-dim: #9ca3af;
+  --line-dark: rgba(0, 0, 0, 0.12);
+  --line-subtle: #e5e7eb;
+  --hud-lime: #c0fb50;
+  --hud-blue: #8ca6ff;
+  --hud-yellow: #ffce12;
+
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Universal scrollbar killer across Windows (Edge/Chrome/Firefox), macOS, Linux and Mobile */
+*, *::before, *::after {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar,
+*::-webkit-scrollbar,
+*::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+.no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
+button, a, [role="button"], .kpr-link-hover {
+  touch-action: manipulation;
+}
+
+@media (pointer: coarse), (max-width: 880px) {
+  .hud-mobile-dock .hud-link-hover::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+  }
+}
+
+body::before {
+  display: none;
+}
+
+/* HUD Utility Classes */
+.font-inktrap {
+  font-family: var(--font-inktrap);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Corner Crosshairs */
+.hud-crosshair-tl, .hud-crosshair-tr, .hud-crosshair-bl, .hud-crosshair-br {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+}
+.hud-crosshair-tl { top: -1px; left: -1px; border-top: 1.5px solid #000; border-left: 1.5px solid #000; }
+.hud-crosshair-tr { top: -1px; right: -1px; border-top: 1.5px solid #000; border-right: 1.5px solid #000; }
+.hud-crosshair-bl { bottom: -1px; left: -1px; border-bottom: 1.5px solid #000; border-left: 1.5px solid #000; }
+.hud-crosshair-br { bottom: -1px; right: -1px; border-bottom: 1.5px solid #000; border-right: 1.5px solid #000; }
+
+.hud-crosshair-tl-white, .hud-crosshair-tr-white, .hud-crosshair-bl-white, .hud-crosshair-br-white {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+}
+.hud-crosshair-tl-white { top: -1px; left: -1px; border-top: 1.5px solid rgba(255, 255, 255, 0.8); border-left: 1.5px solid rgba(255, 255, 255, 0.8); }
+.hud-crosshair-tr-white { top: -1px; right: -1px; border-top: 1.5px solid rgba(255, 255, 255, 0.8); border-right: 1.5px solid rgba(255, 255, 255, 0.8); }
+.hud-crosshair-bl-white { bottom: -1px; left: -1px; border-bottom: 1.5px solid rgba(255, 255, 255, 0.8); border-left: 1.5px solid rgba(255, 255, 255, 0.8); }
+.hud-crosshair-br-white { bottom: -1px; right: -1px; border-bottom: 1.5px solid rgba(255, 255, 255, 0.8); border-right: 1.5px solid rgba(255, 255, 255, 0.8); }
+
+/* Status Dot Live Pulse */
+@keyframes hud-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.hud-dot-live {
+  width: 6px;
+  height: 6px;
+  background-color: var(--hud-lime);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--hud-lime);
+  animation: hud-pulse 1.8s infinite;
+  display: inline-block;
+}
+
+
+
+/* Hardware Standby Power Breathing */
+@keyframes hud-power-breathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+
+.animate-power-breathe {
+  animation: hud-power-breathe 2.4s ease-in-out infinite;
+}
+
+/* Sound Equalizer Visualizer Bounce */
+@keyframes hud-equalizer-bounce {
+  0% { height: 3px; }
+  50% { height: 12px; }
+  100% { height: 5px; }
+}
+
+/* Authentic Link Hover font transition: responsive illumination, elegant smooth fade-out */
+.hud-link-hover {
+  transition: color 140ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 140ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 140ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-link-hover:hover {
+  transition: color 100ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 100ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 100ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 100ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Screen reader only utility class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Steam Deck OLED Signature Selection */
+::selection {
+  background-color: #ff5a36;
+  color: #ffffff;
+}
+
+#top-header-white,
+#top-header-dark,
+#top-header-dark-portal,
+#top-header-white-portal {
+  will-change: transform, opacity;
+  transform: translateY(calc(-100% - 1.5rem));
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 880px) {
+  .hud-desktop-nav {
+    display: none !important;
+  }
+  .hud-mobile-dock {
+    display: flex !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: max-content !important;
+    max-width: calc(100vw - 2rem) !important;
+    z-index: 45 !important;
+    will-change: transform, opacity;
+    transform: translate3d(0, 125%, 0);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hud-mobile-dock.hud-mobile-dock-bottom {
+    top: auto !important;
+    bottom: max(0.5rem, calc(var(--sab) + 0.35rem)) !important;
+  }
+
+  #scene5-specs-container .milestones-track {
+    padding-top: max(4.0rem, calc(var(--sat) + 3.5rem)) !important;
+    padding-bottom: max(5.0rem, calc(var(--sab) + 4.5rem)) !important;
+  }
+}
+
+@media (min-width: 881px) {
+  .hud-desktop-nav {
+    display: flex !important;
+  }
+  .hud-mobile-dock {
+    display: none !important;
+  }
+}
+
+/* Hide Next.js dev portal badge to prevent obstructing navigation buttons */
+nextjs-portal {
+  display: none !important;
+}
+
+#card-hero {
+  left: var(--card-hero-left, 4rem);
+}
+
+#card-library {
+  right: var(--card-library-right, 4rem);
+}
+
+/* Stacked Hero & Library Layout: centered copy for mobile, portrait tablets, and narrow viewports (<= 1024px or portrait) */
+@media (max-width: 1024px), (max-aspect-ratio: 115/100) {
+  #card-hero {
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: min(92vw, 480px) !important;
+    top: clamp(5.25rem, calc(var(--sat) + 18vh), 11.0rem) !important;
+    bottom: auto !important;
+    transform: none !important;
+    translate: 0 0 !important;
+    --tw-translate-y: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  #card-library {
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: min(92vw, 480px) !important;
+    top: clamp(4.5rem, calc(var(--sat) + 12vh), 8.5rem) !important;
+    bottom: auto !important;
+    transform: none !important;
+    translate: 0 0 !important;
+    --tw-translate-y: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  #card-hero > div,
+  #card-library > div {
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  #card-hero .flex.items-center,
+  #card-library .flex.items-center {
+    justify-content: center !important;
+  }
+  #card-hero h1,
+  #card-library h2 {
+    text-align: center !important;
+    font-size: clamp(2rem, 5vw, 2.75rem) !important;
+    margin-bottom: 0.5rem !important;
+  }
+  #card-hero .tabular-nums,
+  #card-library .tabular-nums {
+    text-align: center !important;
+  }
+  #card-hero p,
+  #card-library p {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-height: 500px) {
+  .hud-mobile-dock {
+    top: auto !important;
+    bottom: max(0.35rem, var(--sab)) !important;
+    z-index: 45 !important;
+  }
+}
+
+@media (max-height: 500px) {
+  #top-header-white,
+  #top-header-dark,
+  #top-header-white-portal,
+  #top-header-dark-portal {
+    padding-top: max(0.35rem, var(--sat)) !important;
+    padding-bottom: 0.35rem !important;
+  }
+
+  #card-hero,
+  #card-library {
+    top: max(3.0rem, calc(var(--sat) + 2.5rem)) !important;
+    bottom: auto !important;
+    transform: none !important;
+    translate: 0 0 !important;
+    --tw-translate-y: 0 !important;
+  }
+
+  #card-hero h1,
+  #card-library h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  #card-hero p,
+  #card-library p {
+    font-size: 0.75rem !important;
+    line-height: 1.3 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    max-width: 340px !important;
+  }
+
+  #game-showcase-panel {
+    padding-bottom: max(3.75rem, calc(var(--sab) + 3.5rem)) !important;
+    gap: 0.25rem !important;
+  }
+
+  #game-showcase-panel .game-title-container {
+    height: clamp(2.15rem, 5.5vh, 2.5rem) !important;
+  }
+
+  #game-showcase-panel h2 {
+    font-size: clamp(1.65rem, 5.2vw, 1.85rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Scene 5: Compact specification timeline for landscape orientation */
+  #scene5-specs-container .milestones-track {
+    padding-top: max(4.25rem, calc(var(--sat) + 3.85rem)) !important;
+    padding-bottom: max(3.5rem, calc(var(--sab) + 3.0rem)) !important;
+  }
+
+  #scene5-specs-container .spec-milestone-row {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
